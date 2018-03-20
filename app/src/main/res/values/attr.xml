@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--WatchView Style start-->
+<resources>
+    <declare-styleable name="WatchView">
+
+        <attr name="viewSize" format="dimension"></attr>
+        <attr name="borderColor" format="color"></attr>
+        <attr name="backgroundColor" format="color"></attr>
+        <attr name="textSize" format="dimension"></attr>
+        <attr name="secondlineColor" format="color"></attr>
+        <attr name="hourlineColor" format="color"></attr>
+        <attr name="textColor" format="color"></attr>
+        <attr name="minutelineColor" format="color"></attr>
+        <attr name="hourlinePaintStrockwidth" format="dimension"></attr>
+        <attr name="minutelinePaintStrockwidth" format="dimension"></attr>
+        <attr name="secondlinePaintStrockwidth" format="dimension"></attr>
+        <attr name="borderLinePaintStrockWidth" format="dimension"></attr>
+
+    </declare-styleable>
+</resources>

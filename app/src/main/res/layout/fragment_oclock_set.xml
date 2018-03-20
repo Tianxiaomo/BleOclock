@@ -1,0 +1,189 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_oclock_set_rl"
+    android:theme="@style/AppTheme.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.my.bleoclock.FragmentAlarmSet">
+
+
+    <LinearLayout
+        android:id="@+id/ll_up_of_fragment_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/activity_oclock_set_ll_re"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ll_customer_selector"
+            android:orientation="horizontal"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/Fragment_oclock_set_title"
+                    android:text="重复" />
+                <TextView
+                    android:id="@+id/activity_oclock_set_tv_repeat"
+                    style="@style/InformatonSet"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorlucency"
+                    android:src="@android:drawable/ic_media_play"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_division"/>
+
+        <LinearLayout
+            android:id="@+id/activity_oclock_set_ll_ring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Fragment_oclock_set_title"
+                    android:text="铃声" />
+
+                <TextView
+                    android:id="@+id/activity_oclock_set_tv_ring"
+                    style="@style/InformatonSet" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorlucency"
+                    android:src="@android:drawable/ic_media_play"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_division"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite">
+
+            <TextView
+                style="@style/Fragment_oclock_set_title"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_marginBottom="15dp"
+                android:text="振动" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <Switch
+                    android:id="@+id/activity_oclock_set_sw_Vibration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:allowUndo="false"
+                    android:background="@color/colorlucency"
+                    android:shadowColor="@android:color/holo_blue_dark"
+                    android:textColorLink="@android:color/holo_blue_dark" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            style="@style/view_division"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorbackgroundGray"/>
+
+        <View
+            style="@style/view_division"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+            <TextView
+                style="@style/Fragment_oclock_set_title"
+                android:layout_marginBottom="15dp"
+                android:text="闹钟备注" />
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@color/colorGray"></View>
+            <EditText
+                android:id="@+id/activity_oclock_set_tv_alarm_label"
+                style="@style/Fragment_oclock_set_title"
+                android:layout_marginLeft="0dp"
+                android:background="@null"
+                android:hint="填入备注" />
+        </LinearLayout>
+        <View
+            style="@style/view_division"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_up_of_fragment_set"
+        android:background="@color/colorlucency"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+            <TimePicker
+                android:id="@+id/activity_oclock_set_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:headerBackground="@android:color/holo_blue_dark"
+                android:numbersSelectorColor="@android:color/holo_blue_dark"
+                android:timePickerMode="spinner"></TimePicker>
+    </LinearLayout>
+</RelativeLayout>
+
