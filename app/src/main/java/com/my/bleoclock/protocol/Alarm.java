@@ -1,4 +1,4 @@
-package com.my.bleoclock;
+package com.my.bleoclock.protocol;
 
 import android.os.Parcel;
 import android.os.Parcelable;

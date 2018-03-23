@@ -45,7 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <!--<activity android:name=".FragmentAlarmSet"-->
+        <!--<activity android:namFragmentAlarmClockSetmSet"-->
             <!--android:label="ActivityOclockSet"-->
             <!--android:theme="@style/AppTheme.NoActionBar"/>-->
     </application>

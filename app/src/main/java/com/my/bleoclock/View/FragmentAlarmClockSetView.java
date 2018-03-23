@@ -1,18 +1,10 @@
-package com.my.bleoclock;
+package com.my.bleoclock.View;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -22,19 +14,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.my.bleoclock.protocol.Alarm;
+import com.my.bleoclock.R;
+
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 /**
- * Created by qkz on 2018/1/29.
+ * Created by qkz on 2018/3/23.
  */
 
-@SuppressLint("ValidFragment")
-public class FragmentAlarmSet extends Fragment {
+public class FragmentAlarmClockSetView {
     @BindView(R.id.activity_oclock_set_rl)
     RelativeLayout rl_oclock_set;
     @BindView(R.id.activity_oclock_set_ll_re)
@@ -52,68 +45,40 @@ public class FragmentAlarmSet extends Fragment {
     @BindView(R.id.activity_oclock_set_sw_Vibration)
     Switch swVibration;
 
-    private String TAG = "FragmentAlarmSet";
     private String[] items = new String[] {"一次","每天","工作日","周末","自定义"};
     private String[] weekItems = new String[] {"星期一","星期二","星期三","星期四","星期五","星期六","星期日"};
     private byte[ ] selectedWeek = new byte[7];
     private String[] itemsRing = new String[] {"天空之城","致爱丽丝","卡农","西班牙斗牛曲"};
+
+    private static final int addAlarm = 1;
+    private static final int changeAlarm = 2;
+    private int FLAG;
+
+    private Activity activity;
+    private Alarm alarm;
+    byte[] Repeat = new byte[7];
+    String Ring;
+    boolean Vibration = true;
+
     AlertDialog repeatDialog;
     AlertDialog weekDialog;
     AlertDialog ringDialog;
-    ApiBackCall apiBackCall;
 
-    byte[] Repeat = new byte[7];
-    String Ring;
-    byte Hour;
-    byte Minute;
-    boolean OnOff = true;
-    boolean Vibration = true;
-    String Label;
-    private int FLAG;
-    private Alarm alarm;
 
-    private int addAlarm = 1;
-    private int changeAlarm = 2;
-
-    @SuppressLint("ValidFragment")
-    public FragmentAlarmSet(Alarm alarm,ApiBackCall apiBackCall) {
-        this.apiBackCall = apiBackCall;
-        this.alarm = alarm;
-    }
-
-    public FragmentAlarmSet(ApiBackCall apiBackCall) {
-        this.apiBackCall = apiBackCall;
-    }
-
-    public FragmentAlarmSet newInstance(Alarm alarm) {
-        FragmentAlarmSet fragment = new FragmentAlarmSet(apiBackCall);
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_oclock_set, container, false);
+    public FragmentAlarmClockSetView(Activity activity, View view, Alarm alarm){
         ButterKnife.bind(this,view);
         timePicker.setIs24HourView(true);
         etAlarmLabel.setCursorVisible(false);
-
+        this.activity = activity;
         if(alarm != null) {
             FLAG = changeAlarm;
+            this.alarm = alarm;
             loadData(alarm);
         }else{
             FLAG = addAlarm;
-            alarm = new Alarm();
+            this.alarm = new Alarm();
         }
         initRepeatDialog();
-        return view;
     }
 
     private void loadData(Alarm alarm){
@@ -123,37 +88,6 @@ public class FragmentAlarmSet extends Fragment {
         tv_repeat.setText(loadRepeat(alarm.getRepeat()));
         tv_ring.setText(alarm.getRing());
         swVibration.setChecked(alarm.isVibration());
-    }
-
-    //重新加载toolbar上的布局menu_home
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        getActivity().getMenuInflater().inflate(R.menu.menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_android) {
-            Toast.makeText(getContext(),"点击了确定",Toast.LENGTH_LONG).show();
-            getActivity().getSupportFragmentManager().popBackStack();
-            alarm.setHour((byte)timePicker.getHour());
-            alarm.setMinute((byte)timePicker.getMinute());
-            if(FLAG == addAlarm){
-                alarm.setOnOff(true);
-            }else{
-                alarm.setOnOff(alarm.isOnOff());
-            }
-
-            alarm.setRepeat(Repeat);
-            alarm.setLabel(etAlarmLabel.getText().toString());
-            alarm.setRing(tv_ring.getText().toString());
-            alarm.setVibration(Vibration);
-            apiBackCall.success(alarm);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private String loadRepeat(byte[] repeat){
@@ -179,47 +113,47 @@ public class FragmentAlarmSet extends Fragment {
     //对弹出的对话框初始化
     private void initRepeatDialog() {
         //初始化重复对话框，设置弹出位置和透明度
-        repeatDialog = new AlertDialog.Builder(getContext())
-        .setSingleChoiceItems(items, -1, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(), items[which], Toast.LENGTH_SHORT).show();
-                switch (which){
-                    case 0: //once
-                        Repeat = new byte[]{0,0,0,0,0,0,0};
-                        break;
-                    case 1: //everyday
-                        Repeat = new byte[]{1,1,1,1,1,1,1};
-                        break;
-                    case 2: //weekday
-                        Repeat = new byte[]{1,1,1,1,1,0,0};
-                        break;
-                    case 3: //weekend
-                        Repeat = new byte[]{0,0,0,0,0,1,1};
-                        break;
-                    case 4: //cusmnet
-                        weekDialog.show();
-                        break;
-                    default:
-                        break;
-                }
-                if(!items[which].equals("自定义")){
-                    tv_repeat.setText(items[which]);
-                }
-                dialog.dismiss();
-            }
-        }).create();
+        repeatDialog = new AlertDialog.Builder(activity)
+                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(activity, items[which], Toast.LENGTH_SHORT).show();
+                        switch (which){
+                            case 0: //once
+                                Repeat = new byte[]{0,0,0,0,0,0,0};
+                                break;
+                            case 1: //everyday
+                                Repeat = new byte[]{1,1,1,1,1,1,1};
+                                break;
+                            case 2: //weekday
+                                Repeat = new byte[]{1,1,1,1,1,0,0};
+                                break;
+                            case 3: //weekend
+                                Repeat = new byte[]{0,0,0,0,0,1,1};
+                                break;
+                            case 4: //cusmnet
+                                weekDialog.show();
+                                break;
+                            default:
+                                break;
+                        }
+                        if(!items[which].equals("自定义")){
+                            tv_repeat.setText(items[which]);
+                        }
+                        dialog.dismiss();
+                    }
+                }).create();
         repeatDialog.getWindow().setGravity(Gravity.BOTTOM);
         WindowManager.LayoutParams lp = repeatDialog.getWindow().getAttributes();
         lp.alpha = 0.8f;
         repeatDialog.getWindow().setAttributes(lp);
 
         //铃声对话框，设置弹出位置和透明度
-        ringDialog = new AlertDialog.Builder(getContext())
-                .setSingleChoiceItems(itemsRing, -1, new OnClickListener() {
+        ringDialog = new AlertDialog.Builder(activity)
+                .setSingleChoiceItems(itemsRing, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(), itemsRing[which], Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity, itemsRing[which], Toast.LENGTH_SHORT).show();
                         tv_ring.setText(itemsRing[which]);
                         Ring = itemsRing[which];
                         dialog.dismiss();
@@ -231,8 +165,8 @@ public class FragmentAlarmSet extends Fragment {
         ringDialog.getWindow().setAttributes(lpRing);
 
         //初始化重复自定义对话框，设置弹出位置和透明度
-        weekDialog = new AlertDialog.Builder(getContext()).setTitle("重复")
-                .setNegativeButton("取消", null).setPositiveButton("确定", new OnClickListener(){
+        weekDialog = new AlertDialog.Builder(activity).setTitle("重复")
+                .setNegativeButton("取消", null).setPositiveButton("确定", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String repreatString = "";
@@ -260,10 +194,10 @@ public class FragmentAlarmSet extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    Toast.makeText(getActivity(),"振动",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity,"振动",Toast.LENGTH_SHORT).show();
                     Vibration = true;
                 }else{
-                    Toast.makeText(getActivity(),"取消震动",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity,"取消震动",Toast.LENGTH_SHORT).show();
                     Vibration = false;
                 }
             }
@@ -276,11 +210,11 @@ public class FragmentAlarmSet extends Fragment {
     void finishA(View view) {
         switch (view.getId()){
             case R.id.activity_oclock_set_ll_re:
-                Toast.makeText(getActivity(),"点击了重复",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity,"点击了重复",Toast.LENGTH_SHORT).show();
                 repeatDialog.show();
                 break;
             case R.id.activity_oclock_set_ll_ring:
-                Toast.makeText(getActivity(),"点击了铃声"+timePicker.getHour()+timePicker.getMinute() +' ',Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity,"点击了铃声"+timePicker.getHour()+timePicker.getMinute() +' ',Toast.LENGTH_SHORT).show();
                 ringDialog.show();
                 break;
 
@@ -293,6 +227,23 @@ public class FragmentAlarmSet extends Fragment {
             default:
                 break;
         }
+    }
+
+    public Alarm getAlarm(){
+
+        alarm.setHour((byte)timePicker.getHour());
+        alarm.setMinute((byte)timePicker.getMinute());
+        if(FLAG == addAlarm){
+            alarm.setOnOff(true);
+        }else{
+            alarm.setOnOff(alarm.isOnOff());
+        }
+        alarm.setRepeat(Repeat);
+        alarm.setLabel(etAlarmLabel.getText().toString());
+        alarm.setRing(tv_ring.getText().toString());
+        alarm.setVibration(Vibration);
+
+        return alarm;
     }
 
 }

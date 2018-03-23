@@ -1,4 +1,4 @@
-package com.my.bleoclock;
+package com.my.bleoclock.Dialog;
 
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +12,8 @@ import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
+import com.my.bleoclock.ApiBackCall;
+import com.my.bleoclock.R;
 
 import java.util.Date;
 

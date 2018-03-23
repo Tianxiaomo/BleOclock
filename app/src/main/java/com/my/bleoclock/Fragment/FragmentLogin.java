@@ -1,4 +1,4 @@
-package com.my.bleoclock;
+package com.my.bleoclock.Fragment;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -41,6 +41,8 @@ import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
+import com.my.bleoclock.MainActivity;
+import com.my.bleoclock.R;
 import com.my.bleoclock.adapter.DeviceAdapter;
 import com.my.bleoclock.adapter.MainSectionsPagerAdapter;
 import com.my.bleoclock.util.Logger;

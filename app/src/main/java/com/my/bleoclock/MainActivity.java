@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.data.BleDevice;
+import com.my.bleoclock.Fragment.FragmentAlarmClock;
+import com.my.bleoclock.Fragment.FragmentAnther;
+import com.my.bleoclock.Fragment.FragmentStyle;
 import com.my.bleoclock.adapter.MainSectionsPagerAdapter;
 import com.my.bleoclock.base.BaseActivity;
 
@@ -47,7 +50,7 @@ public class MainActivity extends BaseActivity {
     private void initViewPager() {
         List<Fragment> fragmentList = new ArrayList<>(4);
 
-        Fragment fragment0 = FragmentOclock.newInstance(bleDevice);
+        Fragment fragment0 = FragmentAlarmClock.newInstance(bleDevice);
         Fragment    fragment1 = FragmentStyle.newInstance("one","two");
         Fragment    fragment2 = FragmentAnther.newInstance("one","two");
 

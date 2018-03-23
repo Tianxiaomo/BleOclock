@@ -1,4 +1,4 @@
-package com.my.bleoclock;
+package com.my.bleoclock.Dialog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

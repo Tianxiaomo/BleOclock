@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.my.bleoclock.Alarm;
+import com.my.bleoclock.protocol.Alarm;
 import com.my.bleoclock.ItemSwitchChangeListener;
 import com.my.bleoclock.R;
 

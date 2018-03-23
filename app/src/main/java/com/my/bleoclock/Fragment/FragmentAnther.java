@@ -1,4 +1,4 @@
-package com.my.bleoclock;
+package com.my.bleoclock.Fragment;
 
 
 import android.net.Uri;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.my.bleoclock.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

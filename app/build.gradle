@@ -28,8 +28,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-
     compile 'com.clj.fastble:FastBleLib:2.2.4'
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'com.google.code.gson:gson:2.8.2'
+
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
